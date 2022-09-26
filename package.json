@@ -32,7 +32,7 @@
     "trailingComma": "es5"
   },
   "name": "sitecore-cdp-personalize-api",
-  "author": "Kevin Suarez",
+  "author": "Kevin Suarez Melendez",
   "module": "dist/sitecore-cdp-personalize-api.esm.js",
   "size-limit": [
     {
