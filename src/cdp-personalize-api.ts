@@ -1,83 +1,73 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import { logError } from './logger';
+import { CallFlowApi } from './call-flow/call-flow-api';
+import { GuestApi } from './guest/guest-api';
+import { OrderConsumerApi } from './order-consumer/order-consumer-api';
+import { OrderContactApi } from './order-contact/order-contact-api';
+import { OrderItemApi } from './order-item/order-item-api';
+import { OrderApi } from './order/order-api';
+import { CdpConfiguration } from './types';
 
 export class CdpPersonalizeApi {
-  private clientKey!: string;
-  private pointOfSale!: string;
-  private currency!: string;
-  private channel!: string;
-  private apiEndpoint: string = 'https://api.boxever.com/v1.2';
+  private configuration!: CdpConfiguration;
+  private guestApi!: GuestApi;
+  private callFlowApi!: CallFlowApi;
+  private orderApi!: OrderApi;
+  private orderConsumerApi!: OrderConsumerApi;
+  private orderContactApi!: OrderContactApi;
+  private orderItemApi!: OrderItemApi;
 
-  initialize(
-    clientKey: string,
-    pointOfSale: string,
-    currency: string,
-    channel: string,
-    apiEndpoint?: string
-  ) {
-    this.clientKey = clientKey;
-    this.pointOfSale = pointOfSale;
-    this.currency = currency;
-    this.channel = channel;
-
-    if (apiEndpoint) {
-      this.apiEndpoint = apiEndpoint;
+  initialize(configuration: CdpConfiguration) {
+    if (!configuration.apiEndpoint || configuration.apiEndpoint.length == 0) {
+      configuration.apiEndpoint = 'https://api.boxever.com/v2';
     }
+
+    this.configuration = configuration;
   }
 
-  callFlows = <T>(requestData: Record<string, unknown>): Promise<T> => {
-    return new Promise<T>((resolve, reject) => {
-      try {
-        this.get('callFlows', requestData)
-          .then(result => {
-            resolve(result as T);
-          })
-          .catch(error => logError(error));
-      } catch (err) {
-        reject(err);
-      }
-    });
+  guest = (): GuestApi => {
+    if (!this.guestApi) {
+      this.guestApi = new GuestApi(this.configuration);
+    }
+
+    return this.guestApi;
   };
 
-  authenticatedPost = async (
-    action: string,
-    body: Record<string, unknown>,
-    basicAuthToken: string
-  ): Promise<unknown> => {
-    const url = `${this.apiEndpoint}/${action}`;
+  callFlows = (): CallFlowApi => {
+    if (!this.callFlowApi) {
+      this.callFlowApi = new CallFlowApi(this.configuration);
+    }
 
-    const options: AxiosRequestConfig = {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Basic ${basicAuthToken}`,
-      },
-      data: body,
-      url,
-    };
-
-    return axios(options);
+    return this.callFlowApi;
   };
 
-  get = async (
-    action: string,
-    payload?: Record<string, unknown>
-  ): Promise<unknown> => {
-    const message = {
-      clientKey: this.clientKey,
-      pointOfSale: this.pointOfSale,
-      currency: this.currency,
-      channel: this.channel,
-      ...payload,
-    };
-    const url = `${this.apiEndpoint}/${action}?message=${JSON.stringify(
-      message
-    )}`;
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.json().catch(error => console.log(error));
+  order = (): OrderApi => {
+    if (!this.orderApi) {
+      this.orderApi = new OrderApi(this.configuration);
+    }
+
+    return this.orderApi;
+  };
+
+  orderConsumer = (): OrderConsumerApi => {
+    if (!this.orderConsumerApi) {
+      this.orderConsumerApi = new OrderConsumerApi(this.configuration);
+    }
+
+    return this.orderConsumerApi;
+  };
+
+  orderContact = (): OrderContactApi => {
+    if (!this.orderContactApi) {
+      this.orderContactApi = new OrderContactApi(this.configuration);
+    }
+
+    return this.orderContactApi;
+  };
+
+  orderItem = (): OrderItemApi => {
+    if (!this.orderItemApi) {
+      this.orderItemApi = new OrderItemApi(this.configuration);
+    }
+
+    return this.orderItemApi;
   };
 }
