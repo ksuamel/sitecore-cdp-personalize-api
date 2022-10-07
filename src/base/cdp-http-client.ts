@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { encode } from 'js-base64';
 import { CdpConfiguration } from '../types';
+import { encode } from '../util/base64';
 
 export class CdpHttpClient {
   protected configuration: CdpConfiguration;
