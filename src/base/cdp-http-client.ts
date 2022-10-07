@@ -20,16 +20,14 @@ export class CdpHttpClient {
   ): Promise<unknown> => {
     const queryParamString = this.toQueryParamString(queryParams);
     const url = `${this.configuration.apiEndpoint}/${action}${queryParamString}`;
-    const options: AxiosRequestConfig = {
-      method: 'GET',
+    const response = await fetch(url, {
       headers: {
         'content-type': 'application/json',
         Authorization: `Basic ${this.basicAuthToken}`,
       },
-      url,
-    };
+    });
 
-    return axios(options);
+    return response.json();
   };
 
   protected post = async (
@@ -37,17 +35,16 @@ export class CdpHttpClient {
     body: Record<string, unknown>
   ): Promise<unknown> => {
     const url = `${this.configuration.apiEndpoint}/${action}`;
-    const options: AxiosRequestConfig = {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
         Authorization: `Basic ${this.basicAuthToken}`,
       },
-      data: body,
-      url,
-    };
+      body: JSON.stringify(body),
+    });
 
-    return axios(options);
+    return response.json();
   };
 
   protected del = async (action: string): Promise<unknown> => {
