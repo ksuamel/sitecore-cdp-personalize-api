@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { encode } from 'js-base64';
 import { CdpConfiguration } from '../types';
 
 export class CdpHttpClient {
@@ -8,9 +9,9 @@ export class CdpHttpClient {
   constructor(configuration: CdpConfiguration) {
     this.configuration = configuration;
 
-    this.basicAuthToken = Buffer.from(
+    this.basicAuthToken = encode(
       `${this.configuration.apiKey}:${this.configuration.apiSecret}`
-    ).toString('base64');
+    );
   }
 
   protected get = async (
