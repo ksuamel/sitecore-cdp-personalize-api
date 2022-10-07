@@ -76,6 +76,32 @@ cdpPersonalizeApi
   });
 ```
 
+**Guest Data Extenions**
+
+```ts
+cdpPersonalizeApi
+  .dataExtension()
+  .locate('[GUEST_REF]', '[EXTENSION_NAME]')
+  .then(result => console.log(result));
+
+cdpPersonalizeApi
+  .dataExtension()
+  .retrieve('[GUEST_REF]', '[EXTENSION_NAME]', '[EXTENSION_ID]')
+  .then(result => console.log(result));
+
+cdpPersonalizeApi
+  .dataExtension()
+  .upsert('[GUEST_REF]', '[EXTENSION_NAME]', {
+    //data extension data
+  })
+  .then(result => console.log(result));
+
+cdpPersonalizeApi
+  .dataExtension()
+  .delete('[GUEST_REF]', '[EXTENSION_NAME]', '[EXTENSION_ID]')
+  .then(result => console.log(result));
+```
+
 **CallFlows**
 
 ```ts

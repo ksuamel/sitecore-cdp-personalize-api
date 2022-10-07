@@ -16,14 +16,7 @@ export class GuestDataExtensionsApi extends CdpHttpClient {
   ): Promise<unknown> => {
     return this.get(`guests/${guestRef}/${extensionName}/${extensionId}`);
   };
-  create = (
-    guestRef: string,
-    extensionName: string,
-    body: Record<string, unknown>
-  ): Promise<unknown> => {
-    return this.post(`guests/${guestRef}/${extensionName}`, body);
-  };
-  update = (
+  upsert = (
     guestRef: string,
     extensionName: string,
     body: Record<string, unknown>

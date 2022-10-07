@@ -1,5 +1,6 @@
 import { CallFlowApi } from './call-flow/call-flow-api';
 import { GuestApi } from './guest/guest-api';
+import { GuestDataExtensionsApi } from './guest/guest-data-extensions-api';
 import { OrderConsumerApi } from './order-consumer/order-consumer-api';
 import { OrderContactApi } from './order-contact/order-contact-api';
 import { OrderItemApi } from './order-item/order-item-api';
@@ -9,6 +10,7 @@ import { CdpConfiguration } from './types';
 export class CdpPersonalizeApi {
   private configuration!: CdpConfiguration;
   private guestApi!: GuestApi;
+  private guestDataExtensionApi!: GuestDataExtensionsApi;
   private callFlowApi!: CallFlowApi;
   private orderApi!: OrderApi;
   private orderConsumerApi!: OrderConsumerApi;
@@ -29,6 +31,16 @@ export class CdpPersonalizeApi {
     }
 
     return this.guestApi;
+  };
+
+  dataExtension = (): GuestDataExtensionsApi => {
+    if (!this.guestDataExtensionApi) {
+      this.guestDataExtensionApi = new GuestDataExtensionsApi(
+        this.configuration
+      );
+    }
+
+    return this.guestDataExtensionApi;
   };
 
   callFlows = (): CallFlowApi => {
