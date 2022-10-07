@@ -6,10 +6,10 @@ export class CallFlowApi extends CdpHttpClient {
     super(configuration);
   }
 
-  execute = (
+  execute = <T>(
     friendlyId: string,
     body: Record<string, unknown>
-  ): Promise<unknown> => {
+  ): Promise<T> => {
     return this.post(`callFlows`, {
       clientKey: this.configuration.apiKey,
       channel: this.configuration.channel,
@@ -18,6 +18,6 @@ export class CallFlowApi extends CdpHttpClient {
       pointOfSale: this.configuration.pointOfSale,
       friendlyId: friendlyId,
       ...body,
-    });
+    }) as Promise<T>;
   };
 }

@@ -105,13 +105,18 @@ cdpPersonalizeApi
 **CallFlows**
 
 ```ts
+type customResponse = {
+  myProperty: string;
+  otherData: number;
+};
+
 cdpPersonalizeApi
   .callFlows()
-  .execute('[FRIENDLY_ID]', {
+  .execute<customResponse>('[FRIENDLY_ID]', {
     //other body properties you need
   })
   .then(result => {
-    console.log(result);
+    console.log(result, result.myProperty, result.otherData);
   });
 ```
 
