@@ -1,4 +1,4 @@
-# Sitecore CDP and Personalize
+# Sitecore CDP and Personalize API
 
 The sitecore-cdp-personalize-api library is used to quickly integrate with Boxever (Sitecore CDP and Personalize) HTTP APIs.
 
@@ -23,13 +23,13 @@ import { cdpPersonalizeApi } from 'sitecore-cdp-personalize-api';
 
 //Configure CDP and Personalize API
 cdpPersonalizeApi.initialize({
+  clientKey: '[CLIENT_KEY]',
+  apiToken: '[API_TOKEN]',
   pointOfSale: '[POINT_OF_SALE]',
+  apiEndpoint: 'https://api.boxever.com/v2',
   currency: '[CURRENCY]',
   language: '[LANGAUGE]',
-  apiEndpoint: 'https://api.boxever.com/v2',
   channel: '[CHANNEL]',
-  apiKey: '[API_KEY]',
-  apiSecret: '[API_KEY_SECRET]',
 });
 ```
 

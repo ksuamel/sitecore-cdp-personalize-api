@@ -11,7 +11,7 @@ export class CallFlowApi extends CdpHttpClient {
     body: Record<string, unknown>
   ): Promise<T> => {
     return this.post(`callFlows`, {
-      clientKey: this.configuration.apiKey,
+      clientKey: this.configuration.clientKey,
       channel: this.configuration.channel,
       language: this.configuration.language,
       currencyCode: this.configuration.currency,

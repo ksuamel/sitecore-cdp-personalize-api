@@ -10,7 +10,7 @@ export class CdpHttpClient {
     this.configuration = configuration;
 
     this.basicAuthToken = encode(
-      `${this.configuration.apiKey}:${this.configuration.apiSecret}`
+      `${this.configuration.clientKey}:${this.configuration.apiToken}`
     );
   }
 
