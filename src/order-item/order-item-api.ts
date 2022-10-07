@@ -1,4 +1,5 @@
 import { CdpHttpClient } from '../base/cdp-http-client';
+import { PaginatedLocateResponse } from '../base/models/locate-response';
 import { CdpConfiguration } from '../types';
 
 export class OrderItemApi extends CdpHttpClient {
@@ -6,16 +7,29 @@ export class OrderItemApi extends CdpHttpClient {
     super(configuration);
   }
 
+  /**
+   * Used to locate order items
+   * @param orderRef
+   * @param queryParams
+   * @returns
+   */
   locate = (
     orderRef: string,
     queryParams: Record<string, unknown>
-  ): Promise<unknown> => {
+  ): Promise<PaginatedLocateResponse> => {
     return this.get(`orders/${orderRef}/orderItems`, queryParams);
   };
-  retrieve = (
+
+  /**
+   * Used to retrive order item details
+   * @param orderItemRef
+   * @param queryParams
+   * @returns
+   */
+  retrieve = <T>(
     orderItemRef: string,
     queryParams: Record<string, unknown>
-  ): Promise<unknown> => {
+  ): Promise<T> => {
     return this.get(`orderitems/${orderItemRef}`, queryParams);
   };
   update = (

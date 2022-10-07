@@ -1,32 +1,39 @@
 import { CdpHttpClient } from '../base/cdp-http-client';
+import { PaginatedLocateResponse } from '../base/models/locate-response';
 import { CdpConfiguration } from '../types';
-
-type LocateReponse = {
-  href: string;
-  offset: number;
-  limit: number;
-  items: Array<{ href: string }>;
-};
 
 export class GuestDataExtensionsApi extends CdpHttpClient {
   constructor(configuration: CdpConfiguration) {
     super(configuration);
   }
 
+  /**
+   * Used to locate guest's data extensions
+   * @param guestRef
+   * @param extensionName
+   * @returns guest's data extensions
+   */
   locate = (
     guestRef: string,
     extensionName: string
-  ): Promise<LocateReponse> => {
+  ): Promise<PaginatedLocateResponse> => {
     return this.get(`guests/${guestRef}/${extensionName}`) as Promise<
-      LocateReponse
+      PaginatedLocateResponse
     >;
   };
 
-  retrieve = (
+  /**
+   * Used to retrieve data extension details
+   * @param guestRef
+   * @param extensionName
+   * @param extensionId
+   * @returns data extension data
+   */
+  retrieve = <T>(
     guestRef: string,
     extensionName: string,
     extensionId: string
-  ): Promise<any> => {
+  ): Promise<T> => {
     return this.get(`guests/${guestRef}/${extensionName}/${extensionId}`);
   };
 
@@ -61,7 +68,7 @@ export class GuestDataExtensionsApi extends CdpHttpClient {
     }
 
     const extensionId = this.getUrlLastSegment(extensions.items[0].href);
-    const extensionData = await this.retrieve(
+    const extensionData = await this.retrieve<any>(
       guestRef,
       extensionName,
       extensionId

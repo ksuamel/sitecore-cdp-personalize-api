@@ -13,10 +13,10 @@ export class CdpHttpClient {
     );
   }
 
-  protected get = async (
+  protected get = async <T>(
     action: string,
     queryParams?: Record<string, unknown>
-  ): Promise<unknown> => {
+  ): Promise<T> => {
     const queryParamString = this.toQueryParamString(queryParams);
     const url = `${this.configuration.apiEndpoint}/${action}${queryParamString}`;
     const response = await fetch(url, {
@@ -26,7 +26,7 @@ export class CdpHttpClient {
       },
     });
 
-    return response.json();
+    return response.json() as Promise<T>;
   };
 
   protected post = async (
