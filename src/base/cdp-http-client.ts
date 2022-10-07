@@ -1,4 +1,3 @@
-import axios, { AxiosRequestConfig } from 'axios';
 import { CdpConfiguration } from '../types';
 import { encode } from '../util/base64';
 
@@ -49,16 +48,15 @@ export class CdpHttpClient {
 
   protected del = async (action: string): Promise<unknown> => {
     const url = `${this.configuration.apiEndpoint}/${action}`;
-    const options: AxiosRequestConfig = {
+    const response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
         Authorization: `Basic ${this.basicAuthToken}`,
       },
-      url,
-    };
+    });
 
-    return axios(options);
+    return response.json();
   };
 
   private toQueryParamString = (record?: Record<string, unknown>) => {
